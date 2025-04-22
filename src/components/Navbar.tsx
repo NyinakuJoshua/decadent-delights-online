@@ -1,12 +1,13 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingCart, Menu, X, CakeSlice } from "lucide-react";
+import { ShoppingCart, Menu, X, CakeSlice, User } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
   const { getCartCount } = useCart();
+  const { user, signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -53,6 +54,27 @@ const Navbar = () => {
                 </span>
               )}
             </Link>
+            {user ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-sm text-gray-700">
+                  Welcome, {user.email}
+                </span>
+                <Button
+                  variant="outline"
+                  className="border-rose-500 text-rose-500 hover:bg-rose-50"
+                  onClick={() => signOut()}
+                >
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <Link to="/auth">
+                <Button variant="outline" className="border-rose-500 text-rose-500 hover:bg-rose-50">
+                  <User className="h-5 w-5 mr-2" />
+                  Sign In
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -120,6 +142,27 @@ const Navbar = () => {
           >
             <Button className="w-full bg-rose-500 hover:bg-rose-600">Order Now</Button>
           </Link>
+          {user ? (
+            <>
+              <span className="block px-3 py-2 text-base font-medium text-gray-700">
+                Welcome, {user.email}
+              </span>
+              <button
+                onClick={() => signOut()}
+                className="block w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:text-rose-500 hover:bg-gray-50 rounded-md"
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/auth"
+              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-rose-500 hover:bg-gray-50 rounded-md"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Sign In
+            </Link>
+          )}
         </div>
       </div>
     </nav>
