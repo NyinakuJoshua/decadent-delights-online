@@ -272,10 +272,12 @@ const OrderForm = () => {
                       <SelectItem value="cash">Cash on Delivery</SelectItem>
                       <SelectItem value="creditCard">Credit Card</SelectItem>
                       <SelectItem value="bankTransfer">Bank Transfer</SelectItem>
+                      <SelectItem value="mtnMoney">MTN Mobile Money</SelectItem>
+                      <SelectItem value="telecelCash">TELECEL Cash</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    For card payments, we'll contact you for details.
+                    For card and mobile money payments, we'll contact you for details.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

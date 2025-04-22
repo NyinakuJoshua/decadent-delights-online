@@ -14,7 +14,7 @@ const OrderFormPage = () => {
           <div className="text-center">
             <h1 className="text-4xl font-playfair font-bold text-gray-900 mb-4">Order Now</h1>
             <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-              Complete the form below to place your order. Our team will ensure your delicious cake is delivered fresh and on time for your special occasion.
+              Complete the form below to place your order. CICIS BAKERY team will ensure your delicious cake is delivered fresh and on time for your special occasion.
             </p>
           </div>
         </div>
