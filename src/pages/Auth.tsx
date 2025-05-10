@@ -45,10 +45,17 @@ const Auth = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
+        options: {
+          redirectTo: window.location.origin
+        }
       });
+      
       if (error) throw error;
+      
+      // The user will be redirected to Google's authentication page
+      // and then back to your app. No need for additional navigation here.
     } catch (error: any) {
       toast.error(error.message);
     }
