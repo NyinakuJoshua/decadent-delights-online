@@ -7,12 +7,14 @@ type AuthContextType = {
   user: User | null;
   session: Session | null;
   signOut: () => Promise<void>;
+  loading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   session: null,
   signOut: async () => {},
+  loading: true
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -28,6 +30,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
+        
+        // Show appropriate toasts for auth events
+        if (event === 'SIGNED_IN') {
+          console.log("User signed in successfully");
+        } else if (event === 'SIGNED_OUT') {
+          console.log("User signed out");
+        } else if (event === 'TOKEN_REFRESHED') {
+          console.log("Auth token refreshed");
+        }
       }
     );
 
@@ -51,7 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, signOut }}>
+    <AuthContext.Provider value={{ user, session, signOut, loading }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useAuth } from "@/context/AuthContext";
 
 const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -15,6 +16,14 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,10 +43,12 @@ const Auth = () => {
           password,
         });
         if (error) throw error;
+        toast.success("Successfully signed in!");
         navigate("/");
       }
     } catch (error: any) {
-      toast.error(error.message);
+      console.error("Auth error:", error);
+      toast.error(error.message || "Authentication failed");
     } finally {
       setLoading(false);
     }
@@ -48,16 +59,20 @@ const Auth = () => {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: window.location.origin
+          redirectTo: `${window.location.origin}/auth`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          }
         }
       });
       
       if (error) throw error;
       
-      // The user will be redirected to Google's authentication page
-      // and then back to your app. No need for additional navigation here.
+      console.log("Google auth initiated, waiting for redirect...");
     } catch (error: any) {
-      toast.error(error.message);
+      console.error("Google auth error:", error);
+      toast.error(error.message || "Google sign-in failed");
     }
   };
 
@@ -126,7 +141,7 @@ const Auth = () => {
               <Button
                 type="button"
                 onClick={handleGoogleSignIn}
-                className="w-full bg-white text-gray-900 border border-gray-300 hover:bg-gray-50"
+                className="w-full bg-white text-gray-900 border border-gray-300 hover:bg-gray-50 flex items-center justify-center"
               >
                 <img
                   className="h-5 w-5 mr-2"
