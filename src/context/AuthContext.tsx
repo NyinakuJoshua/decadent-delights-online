@@ -8,7 +8,7 @@ type AuthContextType = {
   session: Session | null;
   signOut: () => Promise<void>;
   loading: boolean;
-  isAdmin: boolean; // Added admin check
+  isAdmin: boolean;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -16,7 +16,7 @@ const AuthContext = createContext<AuthContextType>({
   session: null,
   signOut: async () => {},
   loading: true,
-  isAdmin: false // Default to false
+  isAdmin: false
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -28,16 +28,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Set up auth state listener first
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         console.log("Auth state changed:", event);
         setSession(session);
         setUser(session?.user ?? null);
         
-        // Check if user is admin (using email for simplicity)
-        // In production, you'd want to check against a roles table in your database
+        // Check if user is admin using the admin_users table
         if (session?.user) {
-          // For demo purposes, any user with @admin.com is considered an admin
-          setIsAdmin(session.user.email?.endsWith('@admin.com') || false);
+          try {
+            const { data, error } = await supabase
+              .from('admin_users')
+              .select('admin_id')
+              .eq('user_id', session.user.id)
+              .maybeSingle();
+            
+            if (error) {
+              console.error("Error checking admin status:", error);
+              setIsAdmin(false);
+            } else {
+              setIsAdmin(!!data);
+              if (data) {
+                console.log("User is an admin with ID:", data.admin_id);
+              }
+            }
+          } catch (error) {
+            console.error("Error checking admin status:", error);
+            setIsAdmin(false);
+          }
         } else {
           setIsAdmin(false);
         }
@@ -56,14 +73,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     );
 
     // Then check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       console.log("Initial session check:", session ? "logged in" : "no session");
       setSession(session);
       setUser(session?.user ?? null);
       
       // Check if user is admin
       if (session?.user) {
-        setIsAdmin(session.user.email?.endsWith('@admin.com') || false);
+        try {
+          const { data, error } = await supabase
+            .from('admin_users')
+            .select('admin_id')
+            .eq('user_id', session.user.id)
+            .maybeSingle();
+          
+          if (error) {
+            console.error("Error checking admin status:", error);
+            setIsAdmin(false);
+          } else {
+            setIsAdmin(!!data);
+            if (data) {
+              console.log("User is an admin with ID:", data.admin_id);
+            }
+          }
+        } catch (error) {
+          console.error("Error checking admin status:", error);
+          setIsAdmin(false);
+        }
       }
       
       setLoading(false);

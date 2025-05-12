@@ -17,8 +17,6 @@ const AddCakeButton = ({ category, className }: AddCakeButtonProps) => {
   if (!isAdmin) return null;
 
   const handleAddCake = () => {
-    // For now, just show a toast and navigate to a placeholder route
-    // In a full implementation, this would open a form or navigate to a dedicated page
     toast.info(`Creating new ${category} cake`);
     navigate(`/add-cake?category=${category}`);
   };

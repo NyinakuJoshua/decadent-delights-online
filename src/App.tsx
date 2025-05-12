@@ -20,6 +20,7 @@ import OrderForm from "./pages/OrderForm";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
+import AdminAuth from "./pages/AdminAuth";
 
 // Authentication wrapper to handle protected routes and redirects
 const AuthenticatedRoute = ({ children, requiresAdmin = false }: { children: React.ReactNode, requiresAdmin?: boolean }) => {
@@ -121,6 +122,7 @@ const AppRoutes = () => (
       />
       <Route path="/contact" element={<Contact />} />
       <Route path="/auth" element={<Auth />} />
+      <Route path="/admin-auth" element={<AdminAuth />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
     <Toaster />

@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -153,7 +153,7 @@ const Auth = () => {
             </div>
           </div>
 
-          <div className="text-center mt-4">
+          <div className="text-center mt-4 space-y-2">
             <Button
               variant="link"
               className="text-rose-600 hover:text-rose-700"
@@ -163,6 +163,17 @@ const Auth = () => {
                 ? "Already have an account? Sign in"
                 : "Don't have an account? Sign up"}
             </Button>
+            
+            <div>
+              <Link to="/admin-auth">
+                <Button
+                  variant="link"
+                  className="text-rose-600 hover:text-rose-700"
+                >
+                  Register as an Admin
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
