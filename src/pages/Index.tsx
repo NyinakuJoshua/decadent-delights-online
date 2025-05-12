@@ -9,6 +9,7 @@ import TestimonialCard from "@/components/TestimonialCard";
 import { Button } from "@/components/ui/button";
 import { getFeaturesCakes } from "@/data/cakes";
 import { testimonials } from "@/data/testimonials";
+import AddCakeButton from "@/components/AddCakeButton";
 
 const Index = () => {
   const featuredCakes = getFeaturesCakes();
@@ -71,53 +72,95 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Birthday Cakes",
-                image: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=500&auto=format&fit=crop",
-                description: "Custom cakes to make your birthday celebrations unforgettable.",
-                link: "/birthday-cakes"
-              },
-              {
-                title: "Chocolate Cakes",
-                image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=500&auto=format&fit=crop",
-                description: "Indulge in our rich and decadent chocolate creations.",
-                link: "/chocolate-cakes"
-              },
-              {
-                title: "Cake Slices",
-                image: "https://images.unsplash.com/photo-1586788224331-947f68671cf1?q=80&w=500&auto=format&fit=crop",
-                description: "Perfect individual portions for a sweet treat anytime.",
-                link: "/cake-slices"
-              }
-            ].map((category, index) => (
-              <Link 
-                to={category.link}
-                key={index}
-                className="block group" 
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(-1)}
-              >
-                <div className="relative overflow-hidden rounded-lg shadow-md">
-                  <div className="h-64 bg-gray-200">
-                    <img 
-                      src={category.image} 
-                      alt={category.title}
-                      className={`w-full h-full object-cover transition-transform duration-500 ${hoveredIndex === index ? 'scale-110' : 'scale-100'}`}
-                    />
+            {/* Birthday cakes category */}
+            <Link 
+              to="/birthday-cakes"
+              className="block group" 
+              onMouseEnter={() => setHoveredIndex(0)}
+              onMouseLeave={() => setHoveredIndex(-1)}
+            >
+              <div className="relative overflow-hidden rounded-lg shadow-md">
+                <div className="h-64 bg-gray-200">
+                  <img 
+                    src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=500&auto=format&fit=crop" 
+                    alt="Birthday Cakes"
+                    className={`w-full h-full object-cover transition-transform duration-500 ${hoveredIndex === 0 ? 'scale-110' : 'scale-100'}`}
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent flex flex-col justify-end p-6">
+                  <h3 className="text-xl font-playfair font-bold text-white">Birthday Cakes</h3>
+                  <p className="text-white/90 mt-2">Custom cakes to make your birthday celebrations unforgettable.</p>
+                  <div className={`mt-4 transition-transform duration-300 ${hoveredIndex === 0 ? 'translate-x-2' : 'translate-x-0'}`}>
+                    <span className="text-rose-300 flex items-center">
+                      View Collection <ChevronRight className="ml-1 h-4 w-4" />
+                    </span>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent flex flex-col justify-end p-6">
-                    <h3 className="text-xl font-playfair font-bold text-white">{category.title}</h3>
-                    <p className="text-white/90 mt-2">{category.description}</p>
-                    <div className={`mt-4 transition-transform duration-300 ${hoveredIndex === index ? 'translate-x-2' : 'translate-x-0'}`}>
-                      <span className="text-rose-300 flex items-center">
-                        View Collection <ChevronRight className="ml-1 h-4 w-4" />
-                      </span>
-                    </div>
+                  <div className="absolute top-2 right-2">
+                    <AddCakeButton category="birthday" />
                   </div>
                 </div>
-              </Link>
-            ))}
+              </div>
+            </Link>
+
+            {/* Chocolate cakes category */}
+            <Link 
+              to="/chocolate-cakes"
+              className="block group" 
+              onMouseEnter={() => setHoveredIndex(1)}
+              onMouseLeave={() => setHoveredIndex(-1)}
+            >
+              <div className="relative overflow-hidden rounded-lg shadow-md">
+                <div className="h-64 bg-gray-200">
+                  <img 
+                    src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=500&auto=format&fit=crop" 
+                    alt="Chocolate Cakes"
+                    className={`w-full h-full object-cover transition-transform duration-500 ${hoveredIndex === 1 ? 'scale-110' : 'scale-100'}`}
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent flex flex-col justify-end p-6">
+                  <h3 className="text-xl font-playfair font-bold text-white">Chocolate Cakes</h3>
+                  <p className="text-white/90 mt-2">Indulge in our rich and decadent chocolate creations.</p>
+                  <div className={`mt-4 transition-transform duration-300 ${hoveredIndex === 1 ? 'translate-x-2' : 'translate-x-0'}`}>
+                    <span className="text-rose-300 flex items-center">
+                      View Collection <ChevronRight className="ml-1 h-4 w-4" />
+                    </span>
+                  </div>
+                  <div className="absolute top-2 right-2">
+                    <AddCakeButton category="chocolate" />
+                  </div>
+                </div>
+              </div>
+            </Link>
+
+            {/* Cake slices category */}
+            <Link 
+              to="/cake-slices"
+              className="block group" 
+              onMouseEnter={() => setHoveredIndex(2)}
+              onMouseLeave={() => setHoveredIndex(-1)}
+            >
+              <div className="relative overflow-hidden rounded-lg shadow-md">
+                <div className="h-64 bg-gray-200">
+                  <img 
+                    src="https://images.unsplash.com/photo-1586788224331-947f68671cf1?q=80&w=500&auto=format&fit=crop" 
+                    alt="Cake Slices"
+                    className={`w-full h-full object-cover transition-transform duration-500 ${hoveredIndex === 2 ? 'scale-110' : 'scale-100'}`}
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent flex flex-col justify-end p-6">
+                  <h3 className="text-xl font-playfair font-bold text-white">Cake Slices</h3>
+                  <p className="text-white/90 mt-2">Perfect individual portions for a sweet treat anytime.</p>
+                  <div className={`mt-4 transition-transform duration-300 ${hoveredIndex === 2 ? 'translate-x-2' : 'translate-x-0'}`}>
+                    <span className="text-rose-300 flex items-center">
+                      View Collection <ChevronRight className="ml-1 h-4 w-4" />
+                    </span>
+                  </div>
+                  <div className="absolute top-2 right-2">
+                    <AddCakeButton category="slices" />
+                  </div>
+                </div>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -130,9 +173,12 @@ const Index = () => {
               <h2 className="text-3xl font-playfair font-bold text-gray-900">Featured Cakes</h2>
               <p className="mt-2 text-lg text-gray-600">Our most popular and loved creations</p>
             </div>
-            <Link to="/order-form">
-              <Button className="bg-rose-500 hover:bg-rose-600">Order Now</Button>
-            </Link>
+            <div className="flex items-center gap-3">
+              <AddCakeButton category="featured" />
+              <Link to="/order-form">
+                <Button className="bg-rose-500 hover:bg-rose-600">Order Now</Button>
+              </Link>
+            </div>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

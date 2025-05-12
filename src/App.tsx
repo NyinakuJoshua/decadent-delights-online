@@ -22,18 +22,24 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 
 // Authentication wrapper to handle protected routes and redirects
-const AuthenticatedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user, session } = useAuth();
+const AuthenticatedRoute = ({ children, requiresAdmin = false }: { children: React.ReactNode, requiresAdmin?: boolean }) => {
+  const { user, session, isAdmin } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!user && !session) {
       toast.error("Please sign in to access this page");
       navigate("/auth");
+      return;
     }
-  }, [user, session, navigate]);
+    
+    if (requiresAdmin && !isAdmin) {
+      toast.error("You need admin privileges to access this page");
+      navigate("/");
+    }
+  }, [user, session, isAdmin, navigate, requiresAdmin]);
 
-  return user ? <>{children}</> : null;
+  return (user && (!requiresAdmin || isAdmin)) ? <>{children}</> : null;
 };
 
 // Component to handle auth redirects
@@ -54,6 +60,29 @@ const AuthCallbackHandler = () => {
   }, [location, navigate]);
   
   return null;
+};
+
+// Placeholder for the Add Cake page
+const AddCakePage = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const category = queryParams.get('category') || 'featured';
+
+  return (
+    <div className="container mx-auto py-8 px-4">
+      <h1 className="text-3xl font-bold mb-6">Add New {category.charAt(0).toUpperCase() + category.slice(1)} Cake</h1>
+      <p className="mb-8 text-gray-500">This is a placeholder for the cake creation interface. In a complete implementation, this would be a form to add new cakes.</p>
+      <div className="p-6 border rounded-lg bg-gray-50">
+        <p>Selected category: <strong>{category}</strong></p>
+        <p className="mt-4 text-sm text-gray-500">To complete this feature, you would need to implement:</p>
+        <ul className="list-disc ml-6 mt-2 text-sm text-gray-500">
+          <li>A form to collect cake details (name, price, description, etc.)</li>
+          <li>Image upload functionality</li>
+          <li>Backend integration to store the new cake data</li>
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 const queryClient = new QueryClient();
@@ -79,6 +108,14 @@ const AppRoutes = () => (
         element={
           <AuthenticatedRoute>
             <OrderForm />
+          </AuthenticatedRoute>
+        } 
+      />
+      <Route 
+        path="/add-cake" 
+        element={
+          <AuthenticatedRoute requiresAdmin={true}>
+            <AddCakePage />
           </AuthenticatedRoute>
         } 
       />
