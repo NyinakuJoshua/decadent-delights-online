@@ -56,7 +56,7 @@ const AuthCallbackHandler = () => {
     // If we have an access_token in the URL, it's likely an OAuth callback
     if (hashParams.has("access_token") || queryParams.has("access_token")) {
       toast.success("Successfully signed in!");
-      navigate("/");
+      navigate("/order-form");
     }
   }, [location, navigate]);
   

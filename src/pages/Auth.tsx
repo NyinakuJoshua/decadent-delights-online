@@ -14,6 +14,7 @@ const Auth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -34,6 +35,11 @@ const Auth = () => {
         const { error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            data: {
+              full_name: name,
+            },
+          }
         });
         if (error) throw error;
         toast.success("Check your email for the confirmation link!");
@@ -44,7 +50,7 @@ const Auth = () => {
         });
         if (error) throw error;
         toast.success("Successfully signed in!");
-        navigate("/");
+        navigate("/order-form");
       }
     } catch (error: any) {
       console.error("Auth error:", error);
@@ -88,6 +94,20 @@ const Auth = () => {
           </div>
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
+              {isSignUp && (
+                <div>
+                  <Label htmlFor="name">Full Name</Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    required={isSignUp}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+              )}
               <div>
                 <Label htmlFor="email">Email address</Label>
                 <Input

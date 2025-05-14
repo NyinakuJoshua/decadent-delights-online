@@ -1,1 +1,8 @@
+
 project_id = "mqxpvwakdcuzmeerfyhq"
+
+[auth]
+enable_email_signup = true
+enable_email_confirmation = true
+site_url = "https://mqxpvwakdcuzmeerfyhq.supabase.co"
+additional_redirect_urls = ["https://mqxpvwakdcuzmeerfyhq.lovable.app", "https://mqxpvwakdcuzmeerfyhq.supabase.co"]
