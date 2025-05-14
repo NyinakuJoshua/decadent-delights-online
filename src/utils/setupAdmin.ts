@@ -17,17 +17,18 @@ export const createVirtualAdmin = async (): Promise<AdminCredentials | null> => 
   
   try {
     // First check if the admin already exists
-    const { data: existingUsers, error: checkError } = await supabase.auth.admin
-      .listUsers({
-        filter: `email.eq.${adminCredentials.email}`
-      });
+    const { data: existingUsers, error: checkError } = await supabase.auth
+      .admin.listUsers();
     
     if (checkError) {
       console.error("Error checking for existing admin:", checkError);
       return null;
     }
     
-    if (existingUsers && existingUsers.users.length > 0) {
+    // Check if our admin email already exists in the list of users
+    if (existingUsers && existingUsers.users.some(user => 
+      user.email === adminCredentials.email
+    )) {
       console.log("Virtual admin account already exists");
       return adminCredentials;
     }
