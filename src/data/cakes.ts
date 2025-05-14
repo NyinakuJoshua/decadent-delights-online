@@ -17,7 +17,7 @@ export const cakes: Cake[] = [
     category: "chocolate",
     price: 38.99,
     description: "Rich chocolate sponge layered with smooth chocolate ganache, topped with chocolate shavings.",
-    image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=500&auto=format&fit=crop",
+    image: "/lovable-uploads/dd0355a0-1b23-4901-8a7b-6e66fc6569b1.png",
     featured: true,
     tags: ["popular", "bestseller"]
   },
@@ -27,7 +27,7 @@ export const cakes: Cake[] = [
     category: "birthday",
     price: 42.99,
     description: "Moist vanilla sponge with buttercream frosting and rainbow sprinkles. Perfect for any celebration.",
-    image: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=500&auto=format&fit=crop",
+    image: "/lovable-uploads/8ac5b547-6d38-4089-860b-90d33ee5a818.png",
     featured: true,
     tags: ["birthday", "celebration"]
   },
@@ -37,7 +37,7 @@ export const cakes: Cake[] = [
     category: "slices",
     price: 6.99,
     description: "A generous slice of our famous red velvet cake with cream cheese frosting.",
-    image: "https://images.unsplash.com/photo-1586788224331-947f68671cf1?q=80&w=500&auto=format&fit=crop",
+    image: "/lovable-uploads/714dde5b-9800-4c38-82e6-7a1488b4f5b6.png",
     tags: ["popular"]
   },
   {
@@ -46,7 +46,7 @@ export const cakes: Cake[] = [
     category: "chocolate",
     price: 45.99,
     description: "Layers of dark, milk, and white chocolate mousse on a chocolate sponge base.",
-    image: "https://images.unsplash.com/photo-1488477304112-4944851de03d?q=80&w=500&auto=format&fit=crop",
+    image: "/lovable-uploads/437ff464-4dd9-4ddc-82a6-84530e1244a6.png",
     featured: true,
     tags: ["luxury"]
   },
@@ -56,7 +56,7 @@ export const cakes: Cake[] = [
     category: "slices",
     price: 5.99,
     description: "A zesty lemon sponge slice drizzled with lemon syrup and topped with icing.",
-    image: "https://images.unsplash.com/photo-1464195244916-405fa0a8763d?q=80&w=500&auto=format&fit=crop",
+    image: "/lovable-uploads/399c19f6-1d89-4f63-97a0-fc17b2f1f91d.png",
     tags: ["refreshing"]
   },
   {
@@ -65,7 +65,7 @@ export const cakes: Cake[] = [
     category: "birthday",
     price: 48.99,
     description: "Pink vanilla sponge with buttercream roses and edible gold accents. A royal treat!",
-    image: "https://images.unsplash.com/photo-1535141192574-5d4897c12636?q=80&w=500&auto=format&fit=crop",
+    image: "/lovable-uploads/e16e2656-a1a3-4569-9e06-9d2479d652bb.png",
     tags: ["kids", "themed"]
   },
   {
@@ -74,7 +74,7 @@ export const cakes: Cake[] = [
     category: "chocolate",
     price: 40.99,
     description: "Decadent dark chocolate cake with truffle center and mirror glaze finish.",
-    image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?q=80&w=500&auto=format&fit=crop",
+    image: "/lovable-uploads/72a88c0a-a2c1-434f-a18f-4383e9fca304.png",
     tags: ["rich", "dark"]
   },
   {
@@ -83,7 +83,7 @@ export const cakes: Cake[] = [
     category: "slices",
     price: 6.99,
     description: "Light vanilla sponge with layers of raspberry compote and vanilla bean cream.",
-    image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?q=80&w=500&auto=format&fit=crop",
+    image: "/lovable-uploads/f2e8aa9f-fef6-455f-ac02-953f1166c4dd.png",
     tags: ["fruity"]
   },
   {
@@ -92,7 +92,7 @@ export const cakes: Cake[] = [
     category: "birthday",
     price: 50.99,
     description: "Customizable sports-themed cake, perfect for the sports enthusiast's special day.",
-    image: "https://images.unsplash.com/photo-1621303837174-89787a7d4729?q=80&w=500&auto=format&fit=crop",
+    image: "/lovable-uploads/74a6a85c-3534-4e6d-9b96-e65ee61bda04.png",
     tags: ["themed", "customizable"]
   },
   {
@@ -101,7 +101,7 @@ export const cakes: Cake[] = [
     category: "slices",
     price: 7.99,
     description: "Indulgent Belgian chocolate mousse on a thin chocolate biscuit base.",
-    image: "https://images.unsplash.com/photo-1542826438-bd32f43d626f?q=80&w=500&auto=format&fit=crop",
+    image: "/lovable-uploads/714dde5b-9800-4c38-82e6-7a1488b4f5b6.png",
     tags: ["premium"]
   },
   {
@@ -110,7 +110,7 @@ export const cakes: Cake[] = [
     category: "chocolate",
     price: 43.99,
     description: "Chocolate sponge with salted caramel filling and dark chocolate ganache.",
-    image: "https://images.unsplash.com/photo-1571115177098-24ec42ed204d?q=80&w=500&auto=format&fit=crop",
+    image: "/lovable-uploads/fecd67ca-cbe0-42ed-b9cb-1b10c4dc79a3.png",
     tags: ["trending"]
   },
   {
@@ -119,10 +119,29 @@ export const cakes: Cake[] = [
     category: "birthday",
     price: 55.99,
     description: "Custom number-shaped cake with fresh berries and edible flowers. Specify your number when ordering.",
-    image: "https://images.unsplash.com/photo-1562440499-64c9a111f713?q=80&w=500&auto=format&fit=crop",
+    image: "/lovable-uploads/b32403c7-b157-4122-8382-34fc73513680.png",
     featured: true,
     tags: ["custom", "modern"]
   },
+  {
+    id: 13,
+    name: "Cookies and Cream Cake",
+    category: "chocolate",
+    price: 44.99,
+    description: "Delicious chocolate cake with cookies and cream frosting, topped with chocolate cookies and gold accents.",
+    image: "/lovable-uploads/289d3015-4b37-4cc5-9455-b622f108ea75.png",
+    featured: true,
+    tags: ["popular", "cookies"]
+  },
+  {
+    id: 14,
+    name: "Fruit Cheesecake",
+    category: "slices",
+    price: 8.99,
+    description: "Creamy cheesecake topped with an assortment of fresh seasonal fruits.",
+    image: "/lovable-uploads/dfe3f2fa-1dca-4598-826d-514879646e65.png",
+    tags: ["fruity", "premium"]
+  }
 ];
 
 export const getFeaturesCakes = () => cakes.filter(cake => cake.featured);

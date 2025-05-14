@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 interface CakeCardProps {
   cake: Cake;
@@ -22,11 +23,13 @@ const CakeCard = ({ cake }: CakeCardProps) => {
     <div className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
       <Link to={`/cake/${cake.id}`}>
         <div className="h-56 overflow-hidden">
-          <img 
-            src={cake.image}
-            alt={cake.name}
-            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-          />
+          <AspectRatio ratio={4/3} className="w-full h-full">
+            <img 
+              src={cake.image}
+              alt={cake.name}
+              className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+            />
+          </AspectRatio>
         </div>
       </Link>
       <div className="p-5">

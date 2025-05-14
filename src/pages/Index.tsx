@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CakeSlice, ChevronRight } from "lucide-react";
@@ -11,6 +12,7 @@ import { testimonials } from "@/data/testimonials";
 import AddCakeButton from "@/components/AddCakeButton";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
+import AdminCredentialsDisplay from "@/components/AdminCredentialsDisplay";
 
 const Index = () => {
   const featuredCakes = getFeaturesCakes();
@@ -31,6 +33,7 @@ const Index = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
+      <AdminCredentialsDisplay />
       
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-rose-50 to-rose-100 py-16 md:py-24">
