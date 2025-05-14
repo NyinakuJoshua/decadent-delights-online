@@ -1,17 +1,35 @@
+
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, Menu, X, CakeSlice, User } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const { getCartCount } = useCart();
   const { user, signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleOrderNowClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (user) {
+      navigate("/order-form");
+    } else {
+      toast.error("Please sign in to place an order");
+      navigate("/auth");
+    }
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    setIsMenuOpen(false); // Close mobile menu if open
   };
 
   return (
@@ -43,9 +61,12 @@ const Navbar = () => {
             <Link to="/contact" className="text-gray-700 hover:text-rose-500 px-3 py-2 text-sm font-medium transition-colors">
               Contact
             </Link>
-            <Link to="/order-form" className="inline-flex">
-              <Button variant="default" className="bg-rose-500 hover:bg-rose-600">Order Now</Button>
-            </Link>
+            <button 
+              onClick={handleOrderNowClick} 
+              className="inline-flex items-center justify-center rounded-md px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white text-sm font-medium transition-colors"
+            >
+              Order Now
+            </button>
             <Link to="/cart" className="relative">
               <ShoppingCart className="h-6 w-6 text-gray-700 hover:text-rose-500" />
               {getCartCount() > 0 && (
@@ -62,7 +83,7 @@ const Navbar = () => {
                 <Button
                   variant="outline"
                   className="border-rose-500 text-rose-500 hover:bg-rose-50"
-                  onClick={() => signOut()}
+                  onClick={handleSignOut}
                 >
                   Sign Out
                 </Button>
@@ -135,20 +156,25 @@ const Navbar = () => {
           >
             Contact
           </Link>
-          <Link 
-            to="/order-form" 
-            className="block px-3 py-2"
-            onClick={() => setIsMenuOpen(false)}
+          <button 
+            onClick={(e) => {
+              handleOrderNowClick(e);
+              setIsMenuOpen(false);
+            }}
+            className="w-full px-3 py-2 bg-rose-500 hover:bg-rose-600 text-white text-base font-medium rounded-md"
           >
-            <Button className="w-full bg-rose-500 hover:bg-rose-600">Order Now</Button>
-          </Link>
+            Order Now
+          </button>
           {user ? (
             <>
               <span className="block px-3 py-2 text-base font-medium text-gray-700">
                 Welcome, {user.email}
               </span>
               <button
-                onClick={() => signOut()}
+                onClick={async () => {
+                  await handleSignOut();
+                  setIsMenuOpen(false);
+                }}
                 className="block w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:text-rose-500 hover:bg-gray-50 rounded-md"
               >
                 Sign Out

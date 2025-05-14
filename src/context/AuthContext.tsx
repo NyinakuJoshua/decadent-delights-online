@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 type AuthContextType = {
   user: User | null;
@@ -64,8 +65,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         // Show appropriate toasts for auth events
         if (event === 'SIGNED_IN') {
           console.log("User signed in successfully");
+          toast.success("You have signed in successfully");
         } else if (event === 'SIGNED_OUT') {
           console.log("User signed out");
+          toast.success("You have signed out successfully");
         } else if (event === 'TOKEN_REFRESHED') {
           console.log("Auth token refreshed");
         }
@@ -110,9 +113,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signOut = async () => {
     try {
-      await supabase.auth.signOut();
+      console.log("Attempting to sign out...");
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error("Error signing out:", error);
+        toast.error("Failed to sign out");
+        return;
+      }
+      // The auth state listener will handle updating the state and showing a toast
     } catch (error) {
-      console.error("Error signing out:", error);
+      console.error("Error in signOut function:", error);
+      toast.error("An unexpected error occurred while signing out");
     }
   };
 

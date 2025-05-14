@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CakeSlice, ChevronRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,10 +9,24 @@ import { Button } from "@/components/ui/button";
 import { getFeaturesCakes } from "@/data/cakes";
 import { testimonials } from "@/data/testimonials";
 import AddCakeButton from "@/components/AddCakeButton";
+import { useAuth } from "@/context/AuthContext";
+import { toast } from "sonner";
 
 const Index = () => {
   const featuredCakes = getFeaturesCakes();
   const [hoveredIndex, setHoveredIndex] = useState(-1);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleOrderNowClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (user) {
+      navigate("/order-form");
+    } else {
+      toast.error("Please sign in to place an order");
+      navigate("/auth");
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -31,11 +44,13 @@ const Index = () => {
                 Handcrafted with love using the finest ingredients. Elevate your celebrations with our artisanal cakes.
               </p>
               <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                <Link to="/order-form">
-                  <Button size="lg" className="bg-rose-500 hover:bg-rose-600">
-                    Order Now
-                  </Button>
-                </Link>
+                <Button 
+                  size="lg" 
+                  className="bg-rose-500 hover:bg-rose-600"
+                  onClick={handleOrderNowClick}
+                >
+                  Order Now
+                </Button>
                 <Link to="/contact">
                   <Button size="lg" variant="outline" className="border-rose-500 text-rose-500 hover:bg-rose-50">
                     Contact Us
@@ -175,9 +190,12 @@ const Index = () => {
             </div>
             <div className="flex items-center gap-3">
               <AddCakeButton category="featured" />
-              <Link to="/order-form">
-                <Button className="bg-rose-500 hover:bg-rose-600">Order Now</Button>
-              </Link>
+              <Button 
+                className="bg-rose-500 hover:bg-rose-600"
+                onClick={handleOrderNowClick}
+              >
+                Order Now
+              </Button>
             </div>
           </div>
           
@@ -272,11 +290,14 @@ const Index = () => {
             Order now and experience the magic of our handcrafted cakes. Perfect for any occasion or just because you deserve a treat!
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link to="/order-form">
-              <Button size="lg" variant="default" className="bg-white text-rose-500 hover:bg-gray-100">
-                Place an Order
-              </Button>
-            </Link>
+            <Button 
+              size="lg" 
+              variant="default" 
+              className="bg-white text-rose-500 hover:bg-gray-100"
+              onClick={handleOrderNowClick}
+            >
+              Place an Order
+            </Button>
             <Link to="/contact">
               <Button size="lg" variant="outline" className="border-white text-white hover:bg-rose-600">
                 Contact Us
