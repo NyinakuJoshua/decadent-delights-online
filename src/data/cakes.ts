@@ -161,6 +161,81 @@ export const cakes: Cake[] = [
     image: "/lovable-uploads/f47c16a0-48cb-4ead-b2d1-b06415c5ff7c.png",
     featured: true,
     tags: ["trendy", "birthday", "popular"]
+  },
+  {
+    id: 17,
+    name: "Chocolate Raspberry Cake",
+    category: "chocolate",
+    price: 49.99,
+    description: "Rich chocolate cake with raspberry filling and chocolate ganache, topped with fresh raspberries.",
+    image: "/lovable-uploads/14d940ef-14c2-4603-a8ae-1b757da3bfba.png",
+    tags: ["fruity", "chocolate", "premium"]
+  },
+  {
+    id: 18,
+    name: "Red Velvet Heart Cake",
+    category: "birthday",
+    price: 54.99,
+    description: "Heart-shaped red velvet cake with intricate piping details and fresh rose decorations.",
+    image: "/lovable-uploads/19f7ffbc-8709-4cff-b549-3968c9d77bd8.png",
+    featured: true,
+    tags: ["romantic", "special"]
+  },
+  {
+    id: 19,
+    name: "Chocolate Heart Delight",
+    category: "birthday",
+    price: 57.99,
+    description: "Heart-shaped chocolate cake with elaborate chocolate decorations and romantic design elements.",
+    image: "/lovable-uploads/529d6b3d-8001-46ad-a033-d17c968eb9dc.png",
+    featured: true,
+    tags: ["romantic", "premium", "special occasion"]
+  },
+  {
+    id: 20,
+    name: "Rose Heart Love Cake",
+    category: "birthday",
+    price: 53.99,
+    description: "Heart-shaped cake with elegant red and white fondant rose decorations and intricate piping.",
+    image: "/lovable-uploads/ea192ad2-59d3-43c8-a788-a91d211ce931.png", 
+    tags: ["romantic", "celebration"]
+  },
+  {
+    id: 21,
+    name: "Pink Heart Valentine Cake",
+    category: "birthday",
+    price: 46.99,
+    description: "White cake with pink ombré frosting, chocolate drip, and heart decorations.",
+    image: "/lovable-uploads/84fe27e9-7697-427b-9d00-a092e95ab8f5.png",
+    tags: ["romantic", "trendy"]
+  },
+  {
+    id: 22, 
+    name: "Floral Heart Cake",
+    category: "birthday",
+    price: 51.99,
+    description: "White cake with floral fondant decorations and elegant heart motif design.",
+    image: "/lovable-uploads/5014038b-b1ad-44a6-a583-530807cc1f7a.png",
+    tags: ["elegant", "floral"]
+  },
+  {
+    id: 23,
+    name: "Luxury Chocolate Layered Cake",
+    category: "chocolate",
+    price: 59.99,
+    description: "Premium chocolate layer cake with rich chocolate ganache and fresh berries.",
+    image: "/lovable-uploads/57b7f730-400b-4343-94e7-ccd9221ae648.png",
+    featured: true,
+    tags: ["premium", "chocolate"]
+  },
+  {
+    id: 24,
+    name: "Chocolate Vanilla Layered Cake",
+    category: "chocolate",
+    price: 48.99,
+    description: "Alternating layers of chocolate and vanilla cake with decadent chocolate frosting.",
+    image: "/lovable-uploads/ece06b17-52f6-41da-a8f8-e04c1b586026.png",
+    tags: ["classic", "bestseller"]
   }
 ];
 

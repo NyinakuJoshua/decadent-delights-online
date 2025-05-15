@@ -26,9 +26,10 @@ export const createVirtualAdmin = async () => {
     }
     
     // Check if our admin email already exists in the list of users
-    if (data && data.users && data.users.some((user: any) => 
-      user.email === adminCredentials.email
-    )) {
+    const adminExists = data && data.users && 
+      data.users.some((user) => user.email === adminCredentials.email);
+    
+    if (adminExists) {
       console.log("Virtual admin account already exists");
       return;
     }
@@ -57,7 +58,8 @@ export const createVirtualAdmin = async () => {
         .from('admin_users')
         .insert({
           user_id: adminData.user.id,
-          name: adminCredentials.name
+          name: adminCredentials.name,
+          admin_id: 'PLACEHOLDER' // This will be replaced by the DB trigger
         });
 
       if (dbError) {

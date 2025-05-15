@@ -45,6 +45,52 @@ const ChocolateCakes = () => {
         </div>
       </section>
 
+      {/* Featured Chocolate Cakes Gallery */}
+      <section className="py-12 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-playfair font-bold text-gray-900 mb-6 text-center">Featured Chocolate Creations</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* First row of gallery images */}
+            <div className="overflow-hidden rounded-lg shadow-md">
+              <img 
+                src="/lovable-uploads/57b7f730-400b-4343-94e7-ccd9221ae648.png" 
+                alt="Luxury Chocolate Cake Slice" 
+                className="w-full h-64 object-cover"
+              />
+              <div className="p-4 bg-white">
+                <h3 className="font-medium text-gray-900">Luxury Chocolate Layer Slice</h3>
+                <p className="text-sm text-gray-500">Decadent chocolate layers with berries and chocolate shavings</p>
+              </div>
+            </div>
+            
+            <div className="overflow-hidden rounded-lg shadow-md">
+              <img 
+                src="/lovable-uploads/ece06b17-52f6-41da-a8f8-e04c1b586026.png" 
+                alt="Chocolate Vanilla Layer Cake" 
+                className="w-full h-64 object-cover"
+              />
+              <div className="p-4 bg-white">
+                <h3 className="font-medium text-gray-900">Chocolate Vanilla Layer Cake</h3>
+                <p className="text-sm text-gray-500">Alternating chocolate and vanilla layers with chocolate frosting</p>
+              </div>
+            </div>
+            
+            <div className="overflow-hidden rounded-lg shadow-md">
+              <img 
+                src="/lovable-uploads/67502dfb-c53c-498d-be13-6f2dd1fe45c6.png" 
+                alt="Chocolate Orange Cake" 
+                className="w-full h-64 object-cover"
+              />
+              <div className="p-4 bg-white">
+                <h3 className="font-medium text-gray-900">Chocolate Orange Cake</h3>
+                <p className="text-sm text-gray-500">Rich chocolate cake with orange filling and chocolate glaze</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Chocolate Facts */}
       <section className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
