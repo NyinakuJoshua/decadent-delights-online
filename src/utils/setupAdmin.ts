@@ -1,19 +1,19 @@
 
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
 
-interface AdminCredentials {
-  email: string;
-  password: string;
-  name: string;
-}
+// Admin credentials for the app
+export const adminCredentials = {
+  email: "admin@decadentdelights.com",
+  password: "Admin123!",
+  name: "System Administrator"
+};
 
-export const createVirtualAdmin = async (): Promise<AdminCredentials | null> => {
-  const adminCredentials: AdminCredentials = {
-    email: "admin@decadentdelights.com",
-    password: "Admin123!",
-    name: "Virtual Admin"
-  };
+/**
+ * Creates a virtual admin account for demo purposes
+ * Only used in development
+ */
+export const createVirtualAdmin = async () => {
+  console.log("Checking for existing admin account...");
   
   try {
     // First check if the admin already exists
@@ -22,56 +22,53 @@ export const createVirtualAdmin = async (): Promise<AdminCredentials | null> => 
     
     if (checkError) {
       console.error("Error checking for existing admin:", checkError);
-      return null;
+      throw checkError;
     }
     
     // Check if our admin email already exists in the list of users
-    if (data && data.users && data.users.some(user => 
+    if (data && data.users && data.users.some((user: any) => 
       user.email === adminCredentials.email
     )) {
       console.log("Virtual admin account already exists");
-      return adminCredentials;
+      return;
     }
-    
-    // Create the user account
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: adminCredentials.email,
-      password: adminCredentials.password,
-      options: {
-        data: {
-          full_name: adminCredentials.name,
-        },
-      }
-    });
-    
-    if (authError) {
-      console.error("Error creating admin user:", authError);
-      return null;
-    }
-    
-    if (!authData.user) {
-      console.error("Failed to create admin user account");
-      return null;
-    }
-    
-    // Register as admin
-    const { error: adminError } = await supabase
-      .from('admin_users')
-      .insert({
-        user_id: authData.user.id,
-        name: adminCredentials.name,
-        admin_id: 'PLACEHOLDER', // Will be overwritten by the database trigger
+
+    // Create the admin user
+    console.log("Creating virtual admin account...");
+    const { data: adminData, error: adminError } = await supabase.auth.admin
+      .createUser({
+        email: adminCredentials.email,
+        password: adminCredentials.password,
+        email_confirm: true,
+        user_metadata: {
+          name: adminCredentials.name,
+          is_admin: true
+        }
       });
-    
+
     if (adminError) {
-      console.error("Error creating admin record:", adminError);
-      return null;
+      console.error("Failed to create admin account:", adminError);
+      throw adminError;
     }
-    
-    console.log("Virtual admin account created successfully!");
-    return adminCredentials;
+
+    // Add entry to the admin_users table
+    if (adminData && adminData.user) {
+      const { error: dbError } = await supabase
+        .from('admin_users')
+        .insert({
+          user_id: adminData.user.id,
+          name: adminCredentials.name
+        });
+
+      if (dbError) {
+        console.error("Failed to add admin to admin_users table:", dbError);
+        throw dbError;
+      }
+      
+      console.log("Virtual admin account created successfully");
+    }
   } catch (error) {
-    console.error("Unexpected error creating admin:", error);
-    return null;
+    console.error("Error creating virtual admin:", error);
+    throw error;
   }
 };

@@ -23,21 +23,21 @@ export const cakes: Cake[] = [
   },
   {
     id: 2,
-    name: "Vanilla Birthday Celebration",
+    name: "Pink Birthday Celebration",
     category: "birthday",
     price: 42.99,
-    description: "Moist vanilla sponge with buttercream frosting and rainbow sprinkles. Perfect for any celebration.",
-    image: "/lovable-uploads/8ac5b547-6d38-4089-860b-90d33ee5a818.png",
+    description: "Beautiful pink buttercream cake with detailed piping and gold butterfly decorations. Perfect for elegant celebrations.",
+    image: "/lovable-uploads/15a1bc8f-2bb3-4b47-989a-9171776857ce.png",
     featured: true,
     tags: ["birthday", "celebration"]
   },
   {
     id: 3,
-    name: "Red Velvet Slice",
+    name: "Raspberry Chocolate Slice",
     category: "slices",
     price: 6.99,
-    description: "A generous slice of our famous red velvet cake with cream cheese frosting.",
-    image: "/lovable-uploads/714dde5b-9800-4c38-82e6-7a1488b4f5b6.png",
+    description: "Decadent chocolate cake slice with layers of raspberry mousse, topped with fresh raspberries and chocolate drizzle.",
+    image: "/lovable-uploads/37107b8b-6b40-436f-b070-0aeda1ff4b37.png",
     tags: ["popular"]
   },
   {
@@ -52,21 +52,21 @@ export const cakes: Cake[] = [
   },
   {
     id: 5,
-    name: "Lemon Drizzle Slice",
+    name: "Luxury Opera Cake Slice",
     category: "slices",
-    price: 5.99,
-    description: "A zesty lemon sponge slice drizzled with lemon syrup and topped with icing.",
-    image: "/lovable-uploads/399c19f6-1d89-4f63-97a0-fc17b2f1f91d.png",
-    tags: ["refreshing"]
+    price: 7.99,
+    description: "Elegant layered cake slice with chocolate, coffee buttercream and gold decoration.",
+    image: "/lovable-uploads/2e5d14ef-e935-4771-80e8-767a07f4172d.png",
+    tags: ["luxury", "premium"]
   },
   {
     id: 6,
-    name: "Princess Birthday Cake",
+    name: "Classic Birthday Cake",
     category: "birthday",
     price: 48.99,
-    description: "Pink vanilla sponge with buttercream roses and edible gold accents. A royal treat!",
-    image: "/lovable-uploads/e16e2656-a1a3-4569-9e06-9d2479d652bb.png",
-    tags: ["kids", "themed"]
+    description: "Classic chocolate birthday cake with alternating chocolate and vanilla rosettes and a happy birthday plaque.",
+    image: "/lovable-uploads/de39ad6a-b8b9-4bce-bbfd-a52561874f9b.png",
+    tags: ["birthday", "classic"]
   },
   {
     id: 7,
@@ -88,12 +88,12 @@ export const cakes: Cake[] = [
   },
   {
     id: 9,
-    name: "Sports Theme Birthday Cake",
+    name: "Chocolate Drip Birthday Cake",
     category: "birthday",
     price: 50.99,
-    description: "Customizable sports-themed cake, perfect for the sports enthusiast's special day.",
-    image: "/lovable-uploads/74a6a85c-3534-4e6d-9b96-e65ee61bda04.png",
-    tags: ["themed", "customizable"]
+    description: "White cake with chocolate drip, topped with chocolate bars and a gold 'Happy Birthday' topper.",
+    image: "/lovable-uploads/d395245e-3991-487c-bb3b-cb4ccbcd29fe.png",
+    tags: ["themed", "trendy"]
   },
   {
     id: 10,
@@ -115,32 +115,52 @@ export const cakes: Cake[] = [
   },
   {
     id: 12,
-    name: "Number Cake",
+    name: "Caramel Birthday Cake",
     category: "birthday",
     price: 55.99,
-    description: "Custom number-shaped cake with fresh berries and edible flowers. Specify your number when ordering.",
-    image: "/lovable-uploads/b32403c7-b157-4122-8382-34fc73513680.png",
+    description: "Vanilla cake with caramel drizzle, whipped cream rosettes, and customizable birthday message.",
+    image: "/lovable-uploads/30c6d68d-b130-41cf-be86-a04b443f8051.png",
     featured: true,
     tags: ["custom", "modern"]
   },
   {
     id: 13,
-    name: "Cookies and Cream Cake",
+    name: "Chocolate Rose Cake",
     category: "chocolate",
-    price: 44.99,
-    description: "Delicious chocolate cake with cookies and cream frosting, topped with chocolate cookies and gold accents.",
-    image: "/lovable-uploads/289d3015-4b37-4cc5-9455-b622f108ea75.png",
+    price: 52.99,
+    description: "Elegant white cake with chocolate roses, gold accents and intricate piping details.",
+    image: "/lovable-uploads/f4c4f5b1-609b-4ae1-9fed-c846ae598983.png",
     featured: true,
-    tags: ["popular", "cookies"]
+    tags: ["luxury", "elegant"]
   },
   {
     id: 14,
-    name: "Fruit Cheesecake",
-    category: "slices",
-    price: 8.99,
-    description: "Creamy cheesecake topped with an assortment of fresh seasonal fruits.",
-    image: "/lovable-uploads/dfe3f2fa-1dca-4598-826d-514879646e65.png",
-    tags: ["fruity", "premium"]
+    name: "Valentine Hearts Cake",
+    category: "birthday",
+    price: 48.99,
+    description: "White cake decorated with pink buttercream roses and red and pink fondant hearts - perfect for Valentine's Day birthdays.",
+    image: "/lovable-uploads/43e41289-ae3a-40ba-9654-f96a97593cb5.png",
+    tags: ["romantic", "themed"]
+  },
+  {
+    id: 15,
+    name: "Wedding Tier Cake",
+    category: "featured",
+    price: 120.99,
+    description: "Elegant white tiered cake with red roses and pearl details. Perfect for weddings and special occasions.",
+    image: "/lovable-uploads/8ebf2062-4ec0-4c26-a154-abe954f6e895.png",
+    featured: true,
+    tags: ["wedding", "luxury", "special occasion"]
+  },
+  {
+    id: 16,
+    name: "Pink Drip Birthday Cake",
+    category: "birthday",
+    price: 46.99,
+    description: "Pink buttercream cake with chocolate drip, Oreo cookies and 'Happy Birthday' topper.",
+    image: "/lovable-uploads/f47c16a0-48cb-4ead-b2d1-b06415c5ff7c.png",
+    featured: true,
+    tags: ["trendy", "birthday", "popular"]
   }
 ];
 
