@@ -11,24 +11,24 @@ export type Database = {
     Tables: {
       admin_users: {
         Row: {
-          admin_id: string
           created_at: string
-          id: number
+          email: string | null
           name: string
+          password: string | null
           user_id: string
         }
         Insert: {
-          admin_id: string
           created_at?: string
-          id?: number
+          email?: string | null
           name: string
+          password?: string | null
           user_id: string
         }
         Update: {
-          admin_id?: string
           created_at?: string
-          id?: number
+          email?: string | null
           name?: string
+          password?: string | null
           user_id?: string
         }
         Relationships: []
