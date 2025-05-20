@@ -32,6 +32,17 @@ const AdminCredentialsDisplay = () => {
       
       setupAdmin();
     }
+    
+    // Listen for custom event to show admin credentials
+    const handleShowCredentials = () => {
+      setOpen(true);
+    };
+    
+    document.addEventListener('show-admin-credentials', handleShowCredentials);
+    
+    return () => {
+      document.removeEventListener('show-admin-credentials', handleShowCredentials);
+    };
   }, []);
   
   const handleCopyToClipboard = () => {

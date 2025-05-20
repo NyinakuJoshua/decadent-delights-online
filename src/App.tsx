@@ -21,6 +21,7 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import AdminAuth from "./pages/AdminAuth";
+import AdminDashboard from "./pages/AdminDashboard";
 
 // Authentication wrapper to handle protected routes and redirects
 const AuthenticatedRoute = ({ children, requiresAdmin = false }: { children: React.ReactNode, requiresAdmin?: boolean }) => {
@@ -117,6 +118,14 @@ const AppRoutes = () => (
         element={
           <AuthenticatedRoute requiresAdmin={true}>
             <AddCakePage />
+          </AuthenticatedRoute>
+        } 
+      />
+      <Route 
+        path="/admin" 
+        element={
+          <AuthenticatedRoute requiresAdmin={true}>
+            <AdminDashboard />
           </AuthenticatedRoute>
         } 
       />

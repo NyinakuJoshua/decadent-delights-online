@@ -1,196 +1,184 @@
 
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ShoppingCart, Menu, X, CakeSlice, User } from "lucide-react";
-import { useCart } from "../context/CartContext";
-import { useAuth } from "../context/AuthContext";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import { useAuth } from "@/context/AuthContext";
+import { ShoppingCart, Menu, X, User, LogOut } from "lucide-react";
+import { useCart } from "@/context/CartContext";
+import { useMobileDetect } from "@/hooks/use-mobile";
 
 const Navbar = () => {
-  const { getCartCount } = useCart();
-  const { user, signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
+  const { user, signOut, isAdmin } = useAuth();
+  const { totalItems } = useCart();
+  const location = useLocation();
+  const { isMobile } = useMobileDetect();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  // Close mobile menu when changing routes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
 
-  const handleOrderNowClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (user) {
-      navigate("/order-form");
-    } else {
-      toast.error("Please sign in to place an order");
-      navigate("/auth");
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
     }
   };
 
-  const handleSignOut = async () => {
-    await signOut();
-    setIsMenuOpen(false); // Close mobile menu if open
+  const navItems = [
+    { label: "Home", path: "/" },
+    { label: "Birthday Cakes", path: "/birthday-cakes" },
+    { label: "Chocolate Cakes", path: "/chocolate-cakes" },
+    { label: "Cake Slices", path: "/cake-slices" },
+    { label: "Contact", path: "/contact" },
+  ];
+
+  const isActivePath = (path: string) => {
+    if (path === '/' && location.pathname !== '/') return false;
+    return location.pathname.startsWith(path);
   };
 
   return (
-    <nav className="bg-white shadow-sm sticky top-0 z-50">
+    <nav className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20">
-          {/* Logo */}
+        <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center">
-              <CakeSlice className="h-8 w-8 text-rose-500" />
-              <span className="ml-2 text-xl font-playfair font-bold text-gray-900">Decadent Delights</span>
+            <Link to="/" className="flex-shrink-0 flex items-center">
+              <span className="font-playfair font-bold text-xl text-rose-500">Decadent Delights</span>
             </Link>
           </div>
-
+          
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-gray-700 hover:text-rose-500 px-3 py-2 text-sm font-medium transition-colors">
-              Home
-            </Link>
-            <Link to="/birthday-cakes" className="text-gray-700 hover:text-rose-500 px-3 py-2 text-sm font-medium transition-colors">
-              Birthday Cakes
-            </Link>
-            <Link to="/chocolate-cakes" className="text-gray-700 hover:text-rose-500 px-3 py-2 text-sm font-medium transition-colors">
-              Chocolate Cakes
-            </Link>
-            <Link to="/cake-slices" className="text-gray-700 hover:text-rose-500 px-3 py-2 text-sm font-medium transition-colors">
-              Cake Slices
-            </Link>
-            <Link to="/contact" className="text-gray-700 hover:text-rose-500 px-3 py-2 text-sm font-medium transition-colors">
-              Contact
-            </Link>
-            <button 
-              onClick={handleOrderNowClick} 
-              className="inline-flex items-center justify-center rounded-md px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white text-sm font-medium transition-colors"
-            >
-              Order Now
-            </button>
-            <Link to="/cart" className="relative">
-              <ShoppingCart className="h-6 w-6 text-gray-700 hover:text-rose-500" />
-              {getCartCount() > 0 && (
-                <span className="absolute -top-2 -right-2 bg-rose-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                  {getCartCount()}
+          <div className="hidden md:flex space-x-4">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${
+                  isActivePath(item.path)
+                    ? "text-rose-500 border-b-2 border-rose-500"
+                    : "text-gray-700 hover:text-rose-500 hover:border-b-2 hover:border-rose-300"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className={`inline-flex items-center px-1 pt-1 text-sm font-medium ${
+                  isActivePath("/admin")
+                    ? "text-rose-500 border-b-2 border-rose-500"
+                    : "text-gray-700 hover:text-rose-500 hover:border-b-2 hover:border-rose-300"
+                }`}
+              >
+                Admin Dashboard
+              </Link>
+            )}
+          </div>
+          
+          <div className="hidden md:flex items-center space-x-4">
+            <Link to="/cart" className="relative text-gray-700 hover:text-rose-500">
+              <ShoppingCart className="h-6 w-6" />
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {totalItems}
                 </span>
               )}
             </Link>
+            
             {user ? (
-              <div className="flex items-center space-x-4">
-                <span className="text-sm text-gray-700">
-                  Welcome, {user.email}
-                </span>
-                <Button
-                  variant="outline"
-                  className="border-rose-500 text-rose-500 hover:bg-rose-50"
-                  onClick={handleSignOut}
-                >
+              <div className="relative ml-3 flex items-center space-x-2">
+                <span className="text-sm text-gray-700">{user.user_metadata?.full_name || user.email}</span>
+                <Button variant="outline" size="sm" onClick={handleSignOut}>
+                  <LogOut className="h-4 w-4 mr-1" />
                   Sign Out
                 </Button>
               </div>
             ) : (
               <Link to="/auth">
-                <Button variant="outline" className="border-rose-500 text-rose-500 hover:bg-rose-50">
-                  <User className="h-5 w-5 mr-2" />
+                <Button variant="outline" size="sm">
+                  <User className="h-4 w-4 mr-1" />
                   Sign In
                 </Button>
               </Link>
             )}
           </div>
-
+          
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <Link to="/cart" className="relative mr-4">
-              <ShoppingCart className="h-6 w-6 text-gray-700" />
-              {getCartCount() > 0 && (
-                <span className="absolute -top-2 -right-2 bg-rose-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                  {getCartCount()}
+          <div className="flex md:hidden items-center">
+            <Link to="/cart" className="relative text-gray-700 hover:text-rose-500 mr-4">
+              <ShoppingCart className="h-6 w-6" />
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {totalItems}
                 </span>
               )}
             </Link>
+            
             <button
-              onClick={toggleMenu}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-rose-500 focus:outline-none"
             >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMenuOpen ? <X /> : <Menu />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu */}
-      <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden bg-white`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <Link 
-            to="/" 
-            className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-rose-500 hover:bg-gray-50 rounded-md"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Home
-          </Link>
-          <Link 
-            to="/birthday-cakes" 
-            className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-rose-500 hover:bg-gray-50 rounded-md"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Birthday Cakes
-          </Link>
-          <Link 
-            to="/chocolate-cakes" 
-            className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-rose-500 hover:bg-gray-50 rounded-md"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Chocolate Cakes
-          </Link>
-          <Link 
-            to="/cake-slices" 
-            className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-rose-500 hover:bg-gray-50 rounded-md"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Cake Slices
-          </Link>
-          <Link 
-            to="/contact" 
-            className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-rose-500 hover:bg-gray-50 rounded-md"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Contact
-          </Link>
-          <button 
-            onClick={(e) => {
-              handleOrderNowClick(e);
-              setIsMenuOpen(false);
-            }}
-            className="w-full px-3 py-2 bg-rose-500 hover:bg-rose-600 text-white text-base font-medium rounded-md"
-          >
-            Order Now
-          </button>
-          {user ? (
-            <>
-              <span className="block px-3 py-2 text-base font-medium text-gray-700">
-                Welcome, {user.email}
-              </span>
-              <button
-                onClick={async () => {
-                  await handleSignOut();
-                  setIsMenuOpen(false);
-                }}
-                className="block w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:text-rose-500 hover:bg-gray-50 rounded-md"
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white shadow-lg">
+          <div className="pt-2 pb-4 space-y-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`block pl-3 pr-4 py-2 text-base font-medium ${
+                  isActivePath(item.path)
+                    ? "text-rose-500 border-l-4 border-rose-500 bg-rose-50"
+                    : "text-gray-700 hover:text-rose-500 hover:bg-rose-50 hover:border-l-4 hover:border-rose-300"
+                }`}
               >
-                Sign Out
-              </button>
-            </>
-          ) : (
-            <Link
-              to="/auth"
-              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-rose-500 hover:bg-gray-50 rounded-md"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Sign In
-            </Link>
-          )}
+                {item.label}
+              </Link>
+            ))}
+
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className={`block pl-3 pr-4 py-2 text-base font-medium ${
+                  isActivePath("/admin")
+                    ? "text-rose-500 border-l-4 border-rose-500 bg-rose-50"
+                    : "text-gray-700 hover:text-rose-500 hover:bg-rose-50 hover:border-l-4 hover:border-rose-300"
+                }`}
+              >
+                Admin Dashboard
+              </Link>
+            )}
+            
+            {user ? (
+              <div className="px-3 py-3 space-y-2">
+                <p className="text-sm text-gray-700">{user.user_metadata?.full_name || user.email}</p>
+                <Button variant="outline" size="sm" onClick={handleSignOut} className="w-full">
+                  <LogOut className="h-4 w-4 mr-1" />
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <Link to="/auth" className="block px-3 py-2">
+                <Button variant="outline" size="sm" className="w-full">
+                  <User className="h-4 w-4 mr-1" />
+                  Sign In
+                </Button>
+              </Link>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 };
