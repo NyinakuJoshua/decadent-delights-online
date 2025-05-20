@@ -1,84 +1,92 @@
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogFooter
+  DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { adminCredentials, createVirtualAdmin } from "@/utils/setupAdmin";
-import { toast } from "sonner";
+import { adminCredentials } from "@/utils/setupAdmin";
+import { X } from "lucide-react";
 
 const AdminCredentialsDisplay = () => {
-  const [open, setOpen] = useState(false);
-  
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
-    const hasShownCredentials = localStorage.getItem("admin_credentials_shown");
-    
-    if (!hasShownCredentials) {
-      const setupAdmin = async () => {
-        try {
-          await createVirtualAdmin();
-          setOpen(true);
-          localStorage.setItem("admin_credentials_shown", "true");
-        } catch (error) {
-          console.error("Failed to create admin:", error);
-          toast.error("Failed to create admin account");
-        }
-      };
-      
-      setupAdmin();
-    }
-    
-    // Listen for custom event to show admin credentials
-    const handleShowCredentials = () => {
-      setOpen(true);
-    };
-    
-    document.addEventListener('show-admin-credentials', handleShowCredentials);
-    
+    // Open modal when custom event is triggered
+    const handleShowCredentials = () => setIsOpen(true);
+    document.addEventListener("show-admin-credentials", handleShowCredentials);
+
     return () => {
-      document.removeEventListener('show-admin-credentials', handleShowCredentials);
+      document.removeEventListener("show-admin-credentials", handleShowCredentials);
     };
   }, []);
-  
-  const handleCopyToClipboard = () => {
-    const text = `Email: ${adminCredentials.email}\nPassword: ${adminCredentials.password}`;
-    navigator.clipboard.writeText(text)
-      .then(() => toast.success("Admin credentials copied to clipboard"))
-      .catch(() => toast.error("Failed to copy credentials"));
-  };
-  
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Admin Credentials</DialogTitle>
+        <DialogHeader className="space-y-1">
+          <DialogTitle className="text-lg font-semibold">Admin Credentials</DialogTitle>
           <DialogDescription>
-            Use these credentials to log in as an administrator.
+            Use these credentials to access the admin dashboard.
           </DialogDescription>
         </DialogHeader>
         
-        <div className="grid gap-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <div className="font-semibold">Email:</div>
-            <div className="col-span-3">{adminCredentials.email}</div>
+        <div className="space-y-4 my-4">
+          <div>
+            <p className="text-sm font-medium mb-1">Email:</p>
+            <div className="flex items-center">
+              <code className="bg-gray-100 p-2 rounded flex-1 text-sm">
+                {adminCredentials.email}
+              </code>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => navigator.clipboard.writeText(adminCredentials.email)}
+                className="ml-2"
+              >
+                Copy
+              </Button>
+            </div>
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <div className="font-semibold">Password:</div>
-            <div className="col-span-3">{adminCredentials.password}</div>
+          
+          <div>
+            <p className="text-sm font-medium mb-1">Password:</p>
+            <div className="flex items-center">
+              <code className="bg-gray-100 p-2 rounded flex-1 text-sm">
+                {adminCredentials.password}
+              </code>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => navigator.clipboard.writeText(adminCredentials.password)}
+                className="ml-2"
+              >
+                Copy
+              </Button>
+            </div>
+          </div>
+          
+          <div>
+            <p className="text-sm font-medium mb-1">Name:</p>
+            <code className="bg-gray-100 p-2 rounded block text-sm">
+              {adminCredentials.name}
+            </code>
           </div>
         </div>
         
-        <DialogFooter className="flex-col sm:flex-row sm:justify-between">
-          <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+        <DialogFooter className="flex sm:justify-between">
+          <p className="text-xs text-gray-500">
+            These credentials are for demonstration purposes only.
+          </p>
+          <Button 
+            variant="default" 
+            onClick={() => setIsOpen(false)}
+          >
             Close
-          </Button>
-          <Button type="button" onClick={handleCopyToClipboard}>
-            Copy to Clipboard
           </Button>
         </DialogFooter>
       </DialogContent>

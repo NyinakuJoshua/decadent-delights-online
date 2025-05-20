@@ -17,49 +17,42 @@ export const createVirtualAdmin = async () => {
   
   try {
     // First check if the admin already exists
-    const { data, error: checkError } = await supabase.auth
-      .admin.listUsers();
+    const { data: userData, error: userError } = await supabase.auth
+      .signInWithPassword({
+        email: adminCredentials.email,
+        password: adminCredentials.password
+      });
     
-    if (checkError) {
-      console.error("Error checking for existing admin:", checkError);
-      throw checkError;
-    }
-    
-    // Check if our admin email already exists in the list of users
-    const adminExists = data && data.users && 
-      data.users.some((user: any) => user.email === adminCredentials.email);
-    
-    if (adminExists) {
+    if (!userError && userData.user) {
       console.log("Virtual admin account already exists");
       return;
     }
-
+    
     // Create the admin user
     console.log("Creating virtual admin account...");
-    const { data: adminData, error: adminError } = await supabase.auth.admin
-      .createUser({
-        email: adminCredentials.email,
-        password: adminCredentials.password,
-        email_confirm: true,
-        user_metadata: {
-          name: adminCredentials.name,
-          is_admin: true
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email: adminCredentials.email,
+      password: adminCredentials.password,
+      options: {
+        data: {
+          full_name: adminCredentials.name,
         }
-      });
+      }
+    });
 
-    if (adminError) {
-      console.error("Failed to create admin account:", adminError);
-      throw adminError;
+    if (authError) {
+      console.error("Failed to create admin account:", authError);
+      throw authError;
     }
 
     // Add entry to the admin_users table
-    if (adminData && adminData.user) {
+    if (authData && authData.user) {
       const { error: dbError } = await supabase
         .from('admin_users')
         .insert({
-          user_id: adminData.user.id,
+          user_id: authData.user.id,
           name: adminCredentials.name,
-          admin_id: 'PLACEHOLDER' // This will be replaced by the DB trigger
+          email: adminCredentials.email
         });
 
       if (dbError) {

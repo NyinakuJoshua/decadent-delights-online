@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -70,6 +69,7 @@ const AdminAuth = () => {
           data: {
             full_name: values.name,
           },
+          emailRedirectTo: `${window.location.origin}/auth`
         },
       });
       
@@ -85,13 +85,12 @@ const AdminAuth = () => {
         .insert({
           user_id: authData.user.id,
           name: values.name,
-          admin_id: 'PLACEHOLDER', // This will be overwritten by the database trigger
         });
       
       if (adminError) throw adminError;
       
       toast.success("Admin account created successfully! Please check your email to verify your account.");
-      navigate("/");
+      navigate("/auth");
     } catch (error: any) {
       console.error("Admin signup error:", error);
       toast.error(error.message || "Failed to create admin account");

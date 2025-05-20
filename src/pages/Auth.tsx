@@ -39,6 +39,7 @@ const Auth = () => {
             data: {
               full_name: name,
             },
+            emailRedirectTo: `${window.location.origin}/auth`
           }
         });
         if (error) throw error;
@@ -50,7 +51,7 @@ const Auth = () => {
         });
         if (error) throw error;
         toast.success("Successfully signed in!");
-        navigate("/order-form");
+        navigate("/");
       }
     } catch (error: any) {
       console.error("Auth error:", error);

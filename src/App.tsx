@@ -9,6 +9,7 @@ import { CartProvider } from "./context/CartContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { toast } from "sonner";
 import { useLocation } from "react-router-dom";
+import { createVirtualAdmin } from "./utils/setupAdmin";
 
 // Pages
 import Index from "./pages/Index";
@@ -54,10 +55,21 @@ const AuthCallbackHandler = () => {
     const hashParams = new URLSearchParams(location.hash.substring(1));
     const queryParams = new URLSearchParams(location.search);
     
+    // Create virtual admin account on initial load
+    const setupAdmin = async () => {
+      try {
+        await createVirtualAdmin();
+      } catch (error) {
+        console.error("Failed to set up virtual admin:", error);
+      }
+    };
+    
+    setupAdmin();
+    
     // If we have an access_token in the URL, it's likely an OAuth callback
     if (hashParams.has("access_token") || queryParams.has("access_token")) {
       toast.success("Successfully signed in!");
-      navigate("/order-form");
+      navigate("/");
     }
   }, [location, navigate]);
   
