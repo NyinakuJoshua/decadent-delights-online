@@ -5,14 +5,15 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { ShoppingCart, Menu, X, User, LogOut } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { useMobileDetect } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, signOut, isAdmin } = useAuth();
-  const { totalItems } = useCart();
+  const { getCartCount } = useCart();
   const location = useLocation();
-  const { isMobile } = useMobileDetect();
+  const isMobile = useIsMobile();
+  const totalItems = getCartCount();
 
   // Close mobile menu when changing routes
   useEffect(() => {
