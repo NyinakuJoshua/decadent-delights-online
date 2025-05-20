@@ -36,7 +36,8 @@ export const createVirtualAdmin = async () => {
       options: {
         data: {
           full_name: adminCredentials.name,
-        }
+        },
+        emailRedirectTo: `${window.location.origin}/auth`
       }
     });
 
@@ -47,12 +48,15 @@ export const createVirtualAdmin = async () => {
 
     // Add entry to the admin_users table
     if (authData && authData.user) {
+      const adminId = `ADM-${Math.floor(10000 + Math.random() * 90000)}`;
+      
       const { error: dbError } = await supabase
         .from('admin_users')
         .insert({
           user_id: authData.user.id,
           name: adminCredentials.name,
-          email: adminCredentials.email
+          email: adminCredentials.email,
+          admin_id: adminId
         });
 
       if (dbError) {
@@ -60,7 +64,7 @@ export const createVirtualAdmin = async () => {
         throw dbError;
       }
       
-      console.log("Virtual admin account created successfully");
+      console.log("Virtual admin account created successfully with admin ID:", adminId);
     }
   } catch (error) {
     console.error("Error creating virtual admin:", error);

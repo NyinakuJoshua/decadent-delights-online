@@ -40,7 +40,14 @@ const AdminDashboard = () => {
           <div className="text-center p-8">
             <h1 className="text-2xl font-bold mb-4">Admin Access Required</h1>
             <p className="mb-6">You need administrator privileges to view this page.</p>
-            <Button onClick={() => navigate("/")}>Return to Home</Button>
+            <div className="space-y-4">
+              <Button onClick={() => navigate("/")}>Return to Home</Button>
+              <div>
+                <p className="text-sm text-gray-500 mb-2">Login with admin credentials:</p>
+                <p className="text-sm font-mono bg-gray-100 p-2 rounded">Email: admin@decadentdelights.com</p>
+                <p className="text-sm font-mono bg-gray-100 p-2 rounded">Password: Admin123!</p>
+              </div>
+            </div>
           </div>
         </div>
         <Footer />
@@ -163,6 +170,7 @@ const AdminDashboard = () => {
               
               <div className="mt-8 text-gray-500 text-sm">
                 <p>Use the buttons above to add new cake products to each category. You'll be able to upload images, set prices, and add descriptions.</p>
+                <p className="mt-4 text-sm text-rose-600">Note: Cakes with transparent backgrounds have been automatically removed from the catalog.</p>
               </div>
             </div>
           </TabsContent>

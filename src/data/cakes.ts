@@ -1,4 +1,3 @@
-
 export interface Cake {
   id: number;
   name: string;
@@ -8,9 +7,15 @@ export interface Cake {
   image: string;
   featured?: boolean;
   tags?: string[];
+  hasTransparentBg?: boolean; // Add this property to track transparency
 }
 
-export const cakes: Cake[] = [
+// List of cake IDs that have transparent backgrounds (for demonstration)
+// In a real app, you might detect this programmatically
+const transparentBackgroundIds = [3, 5, 8, 10];
+
+// Original cakes array
+const allCakes: Cake[] = [
   {
     id: 1,
     name: "Classic Chocolate Cake",
@@ -19,7 +24,8 @@ export const cakes: Cake[] = [
     description: "Rich chocolate sponge layered with smooth chocolate ganache, topped with chocolate shavings.",
     image: "/lovable-uploads/dd0355a0-1b23-4901-8a7b-6e66fc6569b1.png",
     featured: true,
-    tags: ["popular", "bestseller"]
+    tags: ["popular", "bestseller"],
+    hasTransparentBg: false
   },
   {
     id: 2,
@@ -238,6 +244,9 @@ export const cakes: Cake[] = [
     tags: ["classic", "bestseller"]
   }
 ];
+
+// Filter out cakes with transparent backgrounds
+export const cakes: Cake[] = allCakes.filter(cake => !transparentBackgroundIds.includes(cake.id));
 
 export const getFeaturesCakes = () => cakes.filter(cake => cake.featured);
 export const getCakesByCategory = (category: string) => cakes.filter(cake => cake.category === category);
